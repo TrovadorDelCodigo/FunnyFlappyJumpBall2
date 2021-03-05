@@ -1,7 +1,7 @@
 # FunnyFlappyJumpBall2
 
 ## TODO 
-- [ ] Definir le canvas
+- [x] Definir le canvas
 - [ ] Fond qui bouge (Trous et murs) 
   - [ ] Matrice qui bouge du haut vers le bas
   - [ ] Faire les éléments de la matrice
@@ -18,3 +18,6 @@
   - [ ] Enregistrer flute et beatbox Amateur
 - [ ] Faire un popup Warning au debout du jeu en disant "Vous ne pourrez pas revenir en arrière, le jeu s'arrête par votre mort..."
 
+# protoype
+
+![Screenshot_20210305-150833_Samsung Notes](https://user-images.githubusercontent.com/38081700/110126617-e260f880-7dc4-11eb-8a6d-a0a7b10e0fd6.jpg)
