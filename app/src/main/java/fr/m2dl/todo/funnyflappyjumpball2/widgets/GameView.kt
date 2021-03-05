@@ -1,39 +1,42 @@
 package fr.m2dl.todo.funnyflappyjumpball2.widgets
 
-import android.graphics.Canvas
-import android.graphics.Color
+import android.app.Activity
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import fr.m2dl.todo.funnyflappyjumpball2.GameThread
-import fr.m2dl.todo.funnyflappyjumpball2.MainActivity
+import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
+import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
+import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
+import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.Scene
 
 class GameView(
-    private val context: MainActivity
-) : SurfaceView(context), SurfaceHolder.Callback {
-    private var thread: GameThread
-    private var x_axis: Float = 0F
-    private var y_axis: Float = 0F
+    private val activity: Activity
+) : SurfaceView(activity), SurfaceHolder.Callback {
+
+    private val defaultFps = 60
+
+    private lateinit var gameEngine: GameEngine
 
     init {
         holder.addCallback(this)
-        thread = GameThread(holder, this)
         isFocusable = true
     }
 
+    private fun populateGameWorld() {
+        gameEngine.setSceneRoot(Scene())
+    }
+
     override fun surfaceCreated(holder: SurfaceHolder) {
-        thread.running = true
-        thread.start()
+        startGame()
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        // TODO : Finish
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         var retry = true
         while (retry) {
             try {
-                stopThread()
+                stopGame()
             } catch (exp: InterruptedException) {
                 exp.printStackTrace()
             }
@@ -41,19 +44,13 @@ class GameView(
         }
     }
 
-    private fun stopThread() {
-        thread.running = false
-        thread.join()
+    private fun startGame() {
+        gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this))
+        populateGameWorld()
+        gameEngine.start()
     }
 
-    fun update() {
+    private fun stopGame() {
+        gameEngine.stop()
     }
-
-    override fun draw(canvas: Canvas?) {
-        super.draw(canvas)
-        if (canvas != null) {
-            canvas.drawColor(Color.WHITE)
-        }
-    }
-
 }
