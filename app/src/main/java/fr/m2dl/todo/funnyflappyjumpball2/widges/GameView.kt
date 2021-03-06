@@ -1,18 +1,17 @@
-package fr.m2dl.todo.funnyflappyjumpball2.widgets
+package fr.m2dl.todo.funnyflappyjumpball2.widges
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import fr.m2dl.todo.funnyflappyjumpball2.GameThread
-import fr.m2dl.todo.funnyflappyjumpball2.MainActivity
 
 class GameView(
-    private val context: MainActivity
+        context: Context
 ) : SurfaceView(context), SurfaceHolder.Callback {
     private var thread: GameThread
-    private var x_axis: Float = 0F
-    private var y_axis: Float = 0F
+    private var cxAccelerometerMotion = 0F
 
     init {
         holder.addCallback(this)
@@ -26,7 +25,6 @@ class GameView(
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        // TODO : Finish
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
@@ -51,9 +49,13 @@ class GameView(
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-        if (canvas != null) {
-            canvas.drawColor(Color.WHITE)
-        }
+        canvas?.drawColor(Color.WHITE)
+        var cx = canvas!!.width / 2F
+        var cy = canvas!!.height - 100F
+        Ball(cx + cxAccelerometerMotion, cy, Color.RED).draw(canvas)
     }
 
+    fun setAccelerometerMotion(cxMotion: Float) {
+        this.cxAccelerometerMotion = cxMotion
+    }
 }

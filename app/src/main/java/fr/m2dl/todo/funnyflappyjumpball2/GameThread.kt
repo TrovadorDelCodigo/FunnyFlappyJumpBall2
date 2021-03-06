@@ -2,7 +2,7 @@ package fr.m2dl.todo.funnyflappyjumpball2
 
 import android.graphics.Canvas
 import android.view.SurfaceHolder
-import fr.m2dl.todo.funnyflappyjumpball2.widgets.GameView
+import fr.m2dl.todo.funnyflappyjumpball2.widges.GameView
 import java.lang.Exception
 
 class GameThread(
