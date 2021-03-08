@@ -2,7 +2,7 @@ package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
 import android.graphics.Color
-import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameObject
+import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
 /**
  * Root GameObject that represents the main game scene.

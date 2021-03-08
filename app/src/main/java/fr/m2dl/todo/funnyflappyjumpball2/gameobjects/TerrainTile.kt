@@ -3,7 +3,8 @@ package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameObject
+import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
+import kotlin.properties.Delegates
 import kotlin.random.Random
 
 /**
@@ -15,8 +16,8 @@ class TerrainTile(
         private val color: Int
 ): GameObject(0.0f, y) {
 
-    private var width = 0.0f
-    private var height = 0.0f
+    private var width by Delegates.notNull<Float>()
+    private var height by Delegates.notNull<Float>()
 
     override fun init() {
         width = viewport.width
@@ -24,11 +25,17 @@ class TerrainTile(
 
         // TODO remove this test
         for (i in 0..Random.nextInt(10)) {
-            addChild(CoolCircle(
-                    Random.nextFloat() * viewport.width,
-                    Random.nextFloat() * (viewport.height - 100f) + 50f,
-                    Random.nextFloat() * 100f,
-                    Color.YELLOW))
+            if (Random.nextBoolean()) {
+                addChild(CoolCircle(
+                        Random.nextFloat() * viewport.width,
+                        Random.nextFloat() * (viewport.height - 100f) + 50f,
+                        Random.nextFloat() * 70f + 30,
+                        Color.YELLOW))
+            } else {
+                val rx = Random.nextFloat() * viewport.width
+                val ry = Random.nextFloat() * viewport.height
+                addChild(SimpleRect(rx, ry, 100f, 100f, Color.YELLOW))
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
+package fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects
 
 import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngineContext
@@ -8,16 +8,29 @@ abstract class GameObject(
     initialX: Float = 0.0f,
     initialY: Float = 0.0f
 ) {
+    /**
+     * X coordinate relative to the parent.
+     */
     var x: Float = initialX
         private set
+
+    /**
+     * Y coordinate relative to the parent.
+     */
     var y: Float = initialY
         private set
 
-    /** Make sure this X coordinate to drawing functions */
+    /**
+     * Global X coordinate.
+     * Make sure to use global coordinates when drawing or checking collisions.
+     */
     val globalX: Float
         get() = x + (parent?.x ?: 0f)
 
-    /** Make sure this Y coordinate to drawing functions */
+    /**
+     * Global Y coordinate.
+     * Make sure to use global coordinates when drawing or checking collisions.
+     */
     val globalY: Float
         get() = y + (parent?.y ?: 0f)
 

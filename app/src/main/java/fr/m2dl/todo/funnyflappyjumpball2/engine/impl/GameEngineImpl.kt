@@ -4,6 +4,8 @@ import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
+import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
+import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
 class GameEngineImpl(
         override var framesPerSecond: Int,
@@ -46,7 +48,11 @@ class GameEngineImpl(
     }
 
     override fun initGameObject(gameObject: GameObject) {
-        gameObject.initInternals(this, viewport)
+        if (gameObject is CollidableGameObject<*>) {
+            gameObject.initInternals(this, this, viewport)
+        } else {
+            gameObject.initInternals(this, viewport)
+        }
         gameObject.init()
     }
 
@@ -69,6 +75,25 @@ class GameEngineImpl(
         gameObject.draw(canvas)
         gameObject.children.forEach {
             drawGameObject(it, canvas)
+        }
+    }
+
+    override fun checkCollisions(collidableGameObject: CollidableGameObject<*>): List<GameObject> {
+        val collisions = mutableListOf<GameObject>()
+        checkCollision(collidableGameObject, gameObjectTree!!, collisions)
+        return collisions
+    }
+
+    private fun checkCollision(collidableGameObject: CollidableGameObject<*>,
+                               gameObject: GameObject,
+                               collisions: MutableList<GameObject>) {
+        if (collidableGameObject !== gameObject
+                && gameObject is CollidableGameObject<*>
+                && collidableGameObject.collider.collidesWith(gameObject.collider)) {
+            collisions += gameObject
+        }
+        gameObject.children.forEach {
+            checkCollision(collidableGameObject, it, collisions)
         }
     }
 }
