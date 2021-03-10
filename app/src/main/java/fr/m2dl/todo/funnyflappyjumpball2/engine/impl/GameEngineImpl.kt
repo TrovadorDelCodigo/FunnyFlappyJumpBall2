@@ -1,9 +1,13 @@
 package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
 import android.graphics.Canvas
+import android.hardware.SensorManager
+import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
@@ -96,4 +100,20 @@ class GameEngineImpl(
             checkCollision(collidableGameObject, it, collisions)
         }
     }
+
+    override fun notifyEvent(event: GameInputEvent) {
+        if (event is AccelerometerEvent) {
+            notifyAccelerometerEvent(gameObjectTree!!, event)
+        }
+    }
+
+    private fun notifyAccelerometerEvent(gameObject: GameObject, event: AccelerometerEvent) {
+        if (gameObject is AccelerometerEventListener) {
+            gameObject.onAccelerometerEvent(event)
+        }
+        gameObject.children.forEach {
+            notifyAccelerometerEvent(it, event)
+        }
+    }
+
 }

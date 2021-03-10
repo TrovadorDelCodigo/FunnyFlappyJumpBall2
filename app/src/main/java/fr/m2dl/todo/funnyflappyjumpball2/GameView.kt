@@ -1,8 +1,9 @@
-package fr.m2dl.todo.funnyflappyjumpball2.widgets
+package fr.m2dl.todo.funnyflappyjumpball2
 
 import android.app.Activity
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
@@ -13,8 +14,7 @@ class GameView(
 ) : SurfaceView(activity), SurfaceHolder.Callback {
 
     private val defaultFps = 60
-
-    private lateinit var gameEngine: GameEngine
+    private var gameEngine: GameEngine? = null
 
     init {
         holder.addCallback(this)
@@ -22,7 +22,7 @@ class GameView(
     }
 
     private fun populateGameWorld() {
-        gameEngine.setSceneRoot(Scene())
+        gameEngine?.setSceneRoot(Scene())
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -47,10 +47,14 @@ class GameView(
     private fun startGame() {
         gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this))
         populateGameWorld()
-        gameEngine.start()
+        gameEngine?.start()
     }
 
     private fun stopGame() {
-        gameEngine.stop()
+        gameEngine?.stop()
+    }
+
+    fun notifyEvent(event: AccelerometerEvent) {
+        gameEngine?.notifyEvent(event)
     }
 }
