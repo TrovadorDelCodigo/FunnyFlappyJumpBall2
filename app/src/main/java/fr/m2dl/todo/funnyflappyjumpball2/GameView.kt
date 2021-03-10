@@ -1,8 +1,9 @@
-package fr.m2dl.todo.funnyflappyjumpball2.widgets
+package fr.m2dl.todo.funnyflappyjumpball2
 
 import android.app.Activity
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
@@ -13,7 +14,6 @@ class GameView(
 ) : SurfaceView(activity), SurfaceHolder.Callback {
 
     private val defaultFps = 60
-
     private lateinit var gameEngine: GameEngine
 
     init {
@@ -52,5 +52,9 @@ class GameView(
 
     private fun stopGame() {
         gameEngine.stop()
+    }
+
+    fun notifyEvent(event: AccelerometerEvent) {
+        gameEngine.notifyEvent(event)
     }
 }

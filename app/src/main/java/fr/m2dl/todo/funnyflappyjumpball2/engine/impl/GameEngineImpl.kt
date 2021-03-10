@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
@@ -95,5 +96,9 @@ class GameEngineImpl(
         gameObject.children.forEach {
             checkCollision(collidableGameObject, it, collisions)
         }
+    }
+
+    override fun notifyEvent(event: GameInputEvent) {
+        // TODO("Not yet implemented")
     }
 }
