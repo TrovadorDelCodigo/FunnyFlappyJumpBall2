@@ -20,7 +20,7 @@ class GameEngineThread(
                     gameEngine.updateGameObjects(16)
                     gameEngine.drawGameObjects(canvas!!)
                 }
-                sleep((1 / gameEngine.framesPerSecond).toLong())
+                sleep((1000 / gameEngine.framesPerSecond).toLong())
             } catch (exp: Exception) {
                 // Nothing here
             } finally {

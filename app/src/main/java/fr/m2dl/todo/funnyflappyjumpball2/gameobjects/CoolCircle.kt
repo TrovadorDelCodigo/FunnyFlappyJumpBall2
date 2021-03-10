@@ -16,7 +16,7 @@ class CoolCircle(
         private val color: Int
 ): CollidableGameObject<CircleCollider>(x, y, CircleCollider()) {
 
-    private val resizeSpeed = 0.001f
+    private val resizeSpeed = 0.002f
 
     private var dynamicRadius = 0.0f
     private var totalTime = 0.0f
