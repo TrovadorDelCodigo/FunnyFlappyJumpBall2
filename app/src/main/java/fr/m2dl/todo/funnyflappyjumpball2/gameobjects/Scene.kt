@@ -11,6 +11,7 @@ class Scene: GameObject() {
 
     override fun init() {
         addChild(Terrain())
+        addChild((FPSCounter()))
         // TODO remove this test
         addChild(CoolCircle(viewport.width / 2f, viewport.height / 2f, 100f, Color.MAGENTA))
     }
