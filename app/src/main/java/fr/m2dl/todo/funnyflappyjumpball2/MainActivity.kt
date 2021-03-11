@@ -8,9 +8,11 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.Window
 import android.view.WindowManager
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 
 class MainActivity : Activity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -55,5 +57,10 @@ class MainActivity : Activity(), SensorEventListener {
     }
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
          // TODO("Not yet implemented")
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gameView.notifyEvent(TouchScreenEvent(event!!.x, event.y))
+        return true
     }
 }

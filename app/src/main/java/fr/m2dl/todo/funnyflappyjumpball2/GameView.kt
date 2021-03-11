@@ -5,6 +5,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
 import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.Scene
@@ -55,6 +56,10 @@ class GameView(
     }
 
     fun notifyEvent(event: AccelerometerEvent) {
+        gameEngine?.notifyEvent(event)
+    }
+
+    fun notifyEvent(event: TouchScreenEvent) {
         gameEngine?.notifyEvent(event)
     }
 }

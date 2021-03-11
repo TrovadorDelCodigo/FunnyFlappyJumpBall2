@@ -3,10 +3,11 @@ package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 import android.graphics.Canvas
 import android.graphics.Paint
 import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
+import fr.m2dl.todo.funnyflappyjumpball2.engine.TouchScreenEventListener
 import fr.m2dl.todo.funnyflappyjumpball2.engine.collisions.impl.CircleCollider
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
-import kotlin.properties.Delegates
 
 class Ball(
         x: Float,
@@ -14,7 +15,8 @@ class Ball(
         private val radius: Float,
         private val sensibility: Int,
         color: Int
-): CollidableGameObject<CircleCollider>(x, y, CircleCollider()), AccelerometerEventListener {
+): CollidableGameObject<CircleCollider>(x, y, CircleCollider()),
+        AccelerometerEventListener, TouchScreenEventListener {
     private var paint = Paint(color)
     private var LEFT_SIDE_BORDER: Float = 0F
     private var RIGHT_SIDE_BORDER: Float = 0F
@@ -47,6 +49,11 @@ class Ball(
             value >= RIGHT_SIDE_BORDER -> RIGHT_SIDE_BORDER
             else -> value
         }
+    }
+
+    override fun onTouchScreenEvent(event: TouchScreenEvent) {
+        println("touché")
+        // TODO : a implanter
     }
 
 }

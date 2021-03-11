@@ -2,12 +2,10 @@ package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
 import android.graphics.Canvas
 import android.hardware.SensorManager
-import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
-import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
-import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
-import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
+import fr.m2dl.todo.funnyflappyjumpball2.engine.*
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
@@ -102,8 +100,11 @@ class GameEngineImpl(
     }
 
     override fun notifyEvent(event: GameInputEvent) {
-        if (event is AccelerometerEvent) {
-            notifyAccelerometerEvent(gameObjectTree!!, event)
+        when (event) {
+            is AccelerometerEvent ->
+                notifyAccelerometerEvent(gameObjectTree!!, event)
+            is TouchScreenEvent ->
+                notifyTouchScreenEvent(gameObjectTree!!, event)
         }
     }
 
@@ -116,4 +117,12 @@ class GameEngineImpl(
         }
     }
 
+    private fun notifyTouchScreenEvent(gameObject: GameObject, event: TouchScreenEvent) {
+        if (gameObject is TouchScreenEventListener) {
+            gameObject.onTouchScreenEvent(event)
+        }
+        gameObject.children.forEach {
+            notifyTouchScreenEvent(it, event)
+        }
+    }
 }
