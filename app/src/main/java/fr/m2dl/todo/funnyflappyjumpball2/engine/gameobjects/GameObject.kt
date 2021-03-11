@@ -62,6 +62,10 @@ abstract class GameObject(
         gameObject.moveTo(gameObject.x, gameObject.y)
     }
 
+    fun removeChildren() {
+        mutableChildren.removeAll { true }
+    }
+
     /**
      * Called on GameObject creation.
      * Use it to setup GameObject children.

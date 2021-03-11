@@ -28,24 +28,6 @@ class TerrainTile(
         height = viewport.height
         rowHeight = height / TILE_ROW_COUNT
         columnWidth = width / TILE_COLUMN_COUNT
-
-        // TODO remove this test
-        /*for (i in 0..Random.nextInt(10)) {
-            if (Random.nextBoolean()) {
-                addChild(Hole(Random.nextFloat() * viewport.width,
-                        Random.nextFloat() * (viewport.height - 100f) + 50f))
-            } else {
-                addChild(Wall(Random.nextFloat() * (viewport.width - 100f),
-                        Random.nextFloat() * (viewport.height - 75f)))
-            }
-        }*/
-
-        arrangeObstacles()
-        for (row in obstacleRows) {
-            for (obstacle in row) {
-                addChild(obstacle)
-            }
-        }
     }
 
     override fun update(delta: Long) {
@@ -57,7 +39,14 @@ class TerrainTile(
         canvas.drawRect(globalX, globalY, globalX + width, globalY + height, paint)
     }
 
-    private fun arrangeObstacles() {
+    /**
+     * Removes old obstacles and put new ones randomly.
+     * @see Terrain To see when it is called.
+     */
+    fun arrangeObstacles() {
+        obstacleRows.removeAll { true }
+        removeChildren()
+
         for (row in 1..TILE_ROW_COUNT) {
             val rowObstacles = mutableListOf<GameObject>()
 
@@ -68,6 +57,12 @@ class TerrainTile(
                 rowObstacles += chooseObstacle(columnCenterX, rowCenterY, rowObstacles)
             }
             obstacleRows += rowObstacles
+        }
+
+        for (row in obstacleRows) {
+            for (obstacle in row) {
+                addChild(obstacle)
+            }
         }
     }
 
