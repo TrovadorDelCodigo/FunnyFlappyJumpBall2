@@ -11,8 +11,7 @@ class Scene: GameObject() {
 
     override fun init() {
         addChild(Terrain())
-        // TODO remove this test
-        addChild(CoolCircle(viewport.width / 2f, viewport.height / 2f, 100f, Color.MAGENTA))
+        addChild(Ball(viewport.width / 2f, viewport.height / 2f, 50F, 10, Color.BLACK))
     }
 
     override fun update(delta: Long) {
