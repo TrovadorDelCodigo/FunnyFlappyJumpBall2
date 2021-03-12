@@ -1,13 +1,20 @@
 package fr.m2dl.todo.funnyflappyjumpball2
 
 import android.app.Activity
+import android.graphics.Canvas
+import android.graphics.Color
+import android.os.Handler
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
+import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
+import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.CoolCircle
+import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.FPSCounter
 import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.Scene
+import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.SimpleRect
 
 class GameView(
     private val activity: Activity
@@ -19,10 +26,6 @@ class GameView(
     init {
         holder.addCallback(this)
         isFocusable = true
-    }
-
-    private fun populateGameWorld() {
-        gameEngine?.setSceneRoot(Scene())
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -45,7 +48,7 @@ class GameView(
     }
 
     private fun startGame() {
-        gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this))
+        gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this), activity.resources)
         populateGameWorld()
         gameEngine?.start()
     }
@@ -56,5 +59,40 @@ class GameView(
 
     fun notifyEvent(event: AccelerometerEvent) {
         gameEngine?.notifyEvent(event)
+    }
+
+    private fun populateGameWorld() {
+        gameEngine?.setSceneRoot(Scene())
+    }
+
+    private fun populateGameWorldTestChangeScene() {
+        gameEngine?.setSceneRoot(Scene())
+
+        // test
+        val handler = Handler()
+        handler.postDelayed({
+            gameEngine?.setSceneRoot(object : GameObject() {
+                override fun init() {
+                    addChild(SimpleRect(0f, 0f, width.toFloat(), height.toFloat(), Color.BLACK))
+                    addChild(CoolCircle(width / 2f, height / 2f, 100f, Color.YELLOW))
+                    addChild(FPSCounter())
+                }
+
+                override fun deinit() {
+                }
+
+                override fun update(delta: Long) {
+                }
+
+                override fun draw(canvas: Canvas) {
+                }
+
+            })
+
+            handler.postDelayed({
+                gameEngine?.setSceneRoot(Scene())
+
+            }, 3000)
+        }, 3000)
     }
 }

@@ -1,7 +1,7 @@
 package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
+import android.content.res.Resources
 import android.graphics.Canvas
-import android.hardware.SensorManager
 import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
@@ -10,22 +10,32 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
+import fr.m2dl.todo.funnyflappyjumpball2.engine.signals.impl.SignalManagerImpl
 
 class GameEngineImpl(
         override var framesPerSecond: Int,
         private val gameDrawingSurface: GameDrawingSurface,
+        override val resources: Resources
 ): GameEngine {
 
     override val viewport: GameViewport
         get() = gameDrawingSurface.viewport
 
+    override val signalManager = SignalManagerImpl()
+
     private lateinit var gameEngineThread: GameEngineThread
 
-    var gameObjectTree: GameObject? = null
+    private var gameObjectTree: GameObject? = null
+
+    private var newScene = false
 
     override fun setSceneRoot(gameObject: GameObject) {
-        gameObjectTree = gameObject
-        initGameObject(gameObject)
+            if (gameObjectTree != null) {
+                gameObjectTree?.removeChildren()
+                deinitGameObject(gameObjectTree!!)
+            }
+            gameObjectTree = gameObject
+            initGameObject(gameObject)
     }
 
     override fun start() {
@@ -58,6 +68,10 @@ class GameEngineImpl(
             gameObject.initInternals(this, viewport)
         }
         gameObject.init()
+    }
+
+    override fun deinitGameObject(gameObject: GameObject) {
+        gameObject.deinit()
     }
 
     fun updateGameObjects(delta: Long) {

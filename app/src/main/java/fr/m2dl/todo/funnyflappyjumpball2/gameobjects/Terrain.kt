@@ -23,6 +23,15 @@ class Terrain: GameObject() {
             TerrainTile(viewport.height, Color.BLUE)
         )
         tiles.forEach(this::addChild)
+
+        // We put obstacles on the first tile so that
+        // the player can begin the game on the second tile
+        // without dying... Obstacles will be put on the
+        // third tile on the next tile rotation
+        tiles[0].arrangeObstacles()
+    }
+
+    override fun deinit() {
     }
 
     override fun update(delta: Long) {
@@ -46,6 +55,7 @@ class Terrain: GameObject() {
         tiles[1] = tiles[0]
         tiles[0] = lastTile
         lastTile.moveTo(lastTile.x, tiles[1].y - viewport.height)
+        lastTile.arrangeObstacles()
     }
 
     override fun draw(canvas: Canvas) {

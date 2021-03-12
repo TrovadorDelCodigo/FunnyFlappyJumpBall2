@@ -11,8 +11,13 @@ class Scene: GameObject() {
 
     override fun init() {
         addChild(Terrain())
-        // TODO remove this test
+        // TODO remove these tests
+        addChild((FPSCounter()))
+        addChild(CollisionWarning())
         addChild(CoolCircle(viewport.width / 2f, viewport.height / 2f, 100f, Color.MAGENTA))
+    }
+
+    override fun deinit() {
     }
 
     override fun update(delta: Long) {

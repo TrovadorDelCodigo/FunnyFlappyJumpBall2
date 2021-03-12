@@ -34,6 +34,12 @@ abstract class GameObject(
     val globalY: Float
         get() = y + (parent?.y ?: 0f)
 
+    val resources
+        get() = gameEngineContext.resources
+
+    val signalManager
+        get() = gameEngineContext.signalManager
+
     lateinit var viewport: GameViewport
         private set
 
@@ -62,12 +68,25 @@ abstract class GameObject(
         gameObject.moveTo(gameObject.x, gameObject.y)
     }
 
+    fun removeChildren() {
+        children.forEach {
+            it.removeChildren()
+            gameEngineContext.deinitGameObject(it)
+        }
+        mutableChildren.removeAll { true }
+    }
+
     /**
      * Called on GameObject creation.
      * Use it to setup GameObject children.
      * Be careful on the order you add children or the scene will not render properly.
      */
     abstract fun init()
+
+    /**
+     * Called when the GameObject is removed from the tree
+     */
+    abstract fun deinit()
 
     /**
      * Called periodically to update GameObject state
