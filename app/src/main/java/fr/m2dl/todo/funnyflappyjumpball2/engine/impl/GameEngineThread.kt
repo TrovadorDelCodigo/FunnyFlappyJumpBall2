@@ -2,13 +2,19 @@ package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
 import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
-import java.lang.Exception
+import kotlin.system.measureTimeMillis
 
 class GameEngineThread(
         private val gameDrawingSurface: GameDrawingSurface,
         private val gameEngine: GameEngineImpl
 ): Thread() {
+
     var running = false
+
+    private var frameTimeMillis = 0L
+
+    private val targetTimeMillis
+        get() = (1000 / gameEngine.framesPerSecond).toLong()
 
     override fun run() {
         var canvas: Canvas? = null
@@ -17,16 +23,18 @@ class GameEngineThread(
             try {
                 canvas = gameDrawingSurface.lockAndGetCanvas()
                 synchronized(gameDrawingSurface) {
-                    gameEngine.updateGameObjects(16)
-                    gameEngine.drawGameObjects(canvas!!)
+                    frameTimeMillis = measureTimeMillis {
+                        gameEngine.updateGameObjects(targetTimeMillis)
+                        gameEngine.drawGameObjects(canvas!!)
+                    }
                 }
-                sleep((1000 / gameEngine.framesPerSecond).toLong())
             } catch (exp: Exception) {
                 // Nothing here
             } finally {
                 if (canvas != null) {
                     try {
                         gameDrawingSurface.unlockCanvas(canvas)
+                        sleep(targetTimeMillis - frameTimeMillis)
                     } catch (exp: Exception) {
                         exp.printStackTrace()
                     }
