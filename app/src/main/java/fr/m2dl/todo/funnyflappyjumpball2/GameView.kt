@@ -45,7 +45,7 @@ class GameView(
     }
 
     private fun startGame() {
-        gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this))
+        gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this), activity.resources)
         populateGameWorld()
         gameEngine?.start()
     }

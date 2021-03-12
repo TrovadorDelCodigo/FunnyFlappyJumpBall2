@@ -22,20 +22,21 @@ class TerrainTile(
     private var rowHeight = 0f
     private var columnWidth = 0f
     private val obstacleRows = mutableListOf<List<GameObject>>()
+    private lateinit var paint: Paint
 
     override fun init() {
         width = viewport.width
         height = viewport.height
         rowHeight = height / TILE_ROW_COUNT
         columnWidth = width / TILE_COLUMN_COUNT
+        paint = Paint()
+        paint.color = color
     }
 
     override fun update(delta: Long) {
     }
 
     override fun draw(canvas: Canvas) {
-        val paint = Paint()
-        paint.color = color
         canvas.drawRect(globalX, globalY, globalX + width, globalY + height, paint)
     }
 
@@ -51,10 +52,10 @@ class TerrainTile(
             val rowObstacles = mutableListOf<GameObject>()
 
             for (column in 1..Random.nextInt(1, TILE_COLUMN_COUNT + 1)) {
-                val columnCenterX = columnWidth * (column - 1) + columnWidth / 2
-                val rowCenterY = rowHeight * (row - 1) + rowHeight / 2
+                val columnX = columnWidth * (column - 1)
+                val rowY = rowHeight * (row - 1)
 
-                rowObstacles += chooseObstacle(columnCenterX, rowCenterY, rowObstacles)
+                rowObstacles += chooseObstacle(columnX, rowY, rowObstacles)
             }
             obstacleRows += rowObstacles
         }
@@ -66,14 +67,19 @@ class TerrainTile(
         }
     }
 
-    private fun chooseObstacle(columnCenterX: Float, rowCenterY: Float, rowObstacles: List<GameObject>): GameObject {
+    private fun chooseObstacle(columnX: Float, rowY: Float, rowObstacles: List<GameObject>): GameObject {
         val useHole = Random.nextBoolean()
         // If there is already two walls on the row then we need a hole so we can go past the row
         val needHole = rowObstacles.filterIsInstance<Wall>().size == 2
 
         return when {
-            (useHole || needHole) -> Hole(columnCenterX , rowCenterY)
-            else                  -> Wall(columnCenterX - 50f, rowCenterY - 50f)
+            (useHole || needHole) ->
+                Hole(columnX, rowY, columnWidth, rowHeight)
+            else ->
+                Wall(columnX, rowY + rowHeight / 2f - 50f, columnWidth)
         }
+    }
+
+    private fun layoutWalls() {
     }
 }

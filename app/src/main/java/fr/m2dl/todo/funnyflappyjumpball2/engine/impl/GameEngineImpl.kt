@@ -1,7 +1,7 @@
 package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
+import android.content.res.Resources
 import android.graphics.Canvas
-import android.hardware.SensorManager
 import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
@@ -14,6 +14,7 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 class GameEngineImpl(
         override var framesPerSecond: Int,
         private val gameDrawingSurface: GameDrawingSurface,
+        override val resources: Resources
 ): GameEngine {
 
     override val viewport: GameViewport

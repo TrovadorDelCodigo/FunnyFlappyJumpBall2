@@ -11,8 +11,10 @@ private const val FPS_TEXT_FONT_SIZE = 16f
 class FPSCounter: GameObject() {
 
     private var lastDrawTimeNano = 0L
+    private lateinit var paint: Paint
 
     override fun init() {
+        paint = Paint()
     }
 
     override fun update(delta: Long) {
@@ -23,7 +25,6 @@ class FPSCounter: GameObject() {
         val elapsedMillis = (timeNano - lastDrawTimeNano) / 1_000_000f
         val fps = (1000 / elapsedMillis)
 
-        val paint = Paint()
         paint.color = Color.BLACK
         canvas.drawRect(globalX, globalY, globalX + 100f,
                 globalY + FPS_TEXT_FONT_SIZE + 2 * FPS_TEXT_MARGIN, paint)

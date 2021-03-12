@@ -34,6 +34,9 @@ abstract class GameObject(
     val globalY: Float
         get() = y + (parent?.y ?: 0f)
 
+    val resources
+        get() = gameEngineContext.resources
+
     lateinit var viewport: GameViewport
         private set
 
