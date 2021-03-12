@@ -26,6 +26,9 @@ class Hole(
         paint = Paint()
     }
 
+    override fun deinit() {
+    }
+
     override fun update(delta: Long) {
         collider.let {
             it.globalX = globalX

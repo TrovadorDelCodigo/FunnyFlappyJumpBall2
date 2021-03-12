@@ -16,6 +16,9 @@ class Scene: GameObject() {
         addChild(CoolCircle(viewport.width / 2f, viewport.height / 2f, 100f, Color.MAGENTA))
     }
 
+    override fun deinit() {
+    }
+
     override fun update(delta: Long) {
     }
 

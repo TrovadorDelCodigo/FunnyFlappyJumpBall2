@@ -66,6 +66,10 @@ abstract class GameObject(
     }
 
     fun removeChildren() {
+        children.forEach {
+            it.removeChildren()
+            gameEngineContext.deinitGameObject(it)
+        }
         mutableChildren.removeAll { true }
     }
 
@@ -75,6 +79,11 @@ abstract class GameObject(
      * Be careful on the order you add children or the scene will not render properly.
      */
     abstract fun init()
+
+    /**
+     * Called when the GameObject is removed from the tree
+     */
+    abstract fun deinit()
 
     /**
      * Called periodically to update GameObject state

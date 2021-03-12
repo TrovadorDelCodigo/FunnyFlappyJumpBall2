@@ -22,11 +22,17 @@ class GameEngineImpl(
 
     private lateinit var gameEngineThread: GameEngineThread
 
-    var gameObjectTree: GameObject? = null
+    private var gameObjectTree: GameObject? = null
+
+    private var newScene = false
 
     override fun setSceneRoot(gameObject: GameObject) {
-        gameObjectTree = gameObject
-        initGameObject(gameObject)
+            if (gameObjectTree != null) {
+                gameObjectTree?.removeChildren()
+                deinitGameObject(gameObjectTree!!)
+            }
+            gameObjectTree = gameObject
+            initGameObject(gameObject)
     }
 
     override fun start() {
@@ -59,6 +65,10 @@ class GameEngineImpl(
             gameObject.initInternals(this, viewport)
         }
         gameObject.init()
+    }
+
+    override fun deinitGameObject(gameObject: GameObject) {
+        gameObject.deinit()
     }
 
     fun updateGameObjects(delta: Long) {

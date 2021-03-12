@@ -7,4 +7,5 @@ interface GameEngineContext {
     val viewport: GameViewport
     val resources: Resources
     fun initGameObject(gameObject: GameObject)
+    fun deinitGameObject(gameObject: GameObject)
 }

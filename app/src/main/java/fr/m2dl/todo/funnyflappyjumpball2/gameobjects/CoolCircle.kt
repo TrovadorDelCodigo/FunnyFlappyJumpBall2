@@ -24,6 +24,9 @@ class CoolCircle(
     override fun init() {
     }
 
+    override fun deinit() {
+    }
+
     override fun update(delta: Long) {
         totalTime += delta * resizeSpeed
         dynamicRadius = abs(radius * cos(totalTime))

@@ -31,6 +31,9 @@ class Terrain: GameObject() {
         tiles[0].arrangeObstacles()
     }
 
+    override fun deinit() {
+    }
+
     override fun update(delta: Long) {
         tiles.forEach {
             it.moveTo(it.x, it.y + delta * scrollSpeed)

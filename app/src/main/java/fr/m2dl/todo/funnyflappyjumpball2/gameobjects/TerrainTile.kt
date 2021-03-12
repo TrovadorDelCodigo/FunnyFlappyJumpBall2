@@ -33,6 +33,9 @@ class TerrainTile(
         paint.color = color
     }
 
+    override fun deinit() {
+    }
+
     override fun update(delta: Long) {
     }
 
