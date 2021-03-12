@@ -10,6 +10,7 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
+import fr.m2dl.todo.funnyflappyjumpball2.engine.signals.impl.SignalManagerImpl
 
 class GameEngineImpl(
         override var framesPerSecond: Int,
@@ -19,6 +20,8 @@ class GameEngineImpl(
 
     override val viewport: GameViewport
         get() = gameDrawingSurface.viewport
+
+    override val signalManager = SignalManagerImpl()
 
     private lateinit var gameEngineThread: GameEngineThread
 

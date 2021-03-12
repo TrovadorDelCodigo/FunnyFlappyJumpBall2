@@ -17,7 +17,7 @@ class CoolCircle(
 ): CollidableGameObject<CircleCollider>(x, y, CircleCollider()) {
 
     private val resizeSpeed = 0.002f
-
+    private var colliding = false
     private var dynamicRadius = 0.0f
     private var totalTime = 0.0f
 
@@ -36,17 +36,21 @@ class CoolCircle(
             it.globalY = globalY
             it.radius  = dynamicRadius
         }
+
+        val collisions = checkCollisions()
+        colliding = collisions.isNotEmpty()
+        if (colliding) {
+            signalManager.sendSignal("any-collision", true)
+        }
     }
 
     override fun draw(canvas: Canvas) {
         val paint = Paint()
         paint.color = color
 
-        val collisions = checkCollisions()
-        if (collisions.isNotEmpty()) {
+        if (colliding) {
             paint.color = Color.BLACK
         }
-
         canvas.drawCircle(globalX, globalY, dynamicRadius, paint)
     }
 }

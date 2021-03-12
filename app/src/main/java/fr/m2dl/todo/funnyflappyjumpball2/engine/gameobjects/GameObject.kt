@@ -37,6 +37,9 @@ abstract class GameObject(
     val resources
         get() = gameEngineContext.resources
 
+    val signalManager
+        get() = gameEngineContext.signalManager
+
     lateinit var viewport: GameViewport
         private set
 
