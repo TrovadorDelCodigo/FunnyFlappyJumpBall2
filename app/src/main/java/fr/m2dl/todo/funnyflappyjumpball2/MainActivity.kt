@@ -60,7 +60,7 @@ class MainActivity : Activity(), SensorEventListener {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        gameView.notifyEvent(TouchScreenEvent(event!!.x, event.y))
+        gameView.notifyEvent(TouchScreenEvent(event!!.x, event.y, event.action))
         return true
     }
 }
