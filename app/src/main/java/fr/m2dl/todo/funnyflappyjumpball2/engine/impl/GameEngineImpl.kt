@@ -11,6 +11,7 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.signals.impl.SignalManagerImpl
+import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 
 class GameEngineImpl(
         override var framesPerSecond: Int,
@@ -80,7 +81,7 @@ class GameEngineImpl(
 
     private fun updateGameObject(gameObject: GameObject, delta: Long) {
         gameObject.update(delta)
-        gameObject.children.forEach {
+        gameObject.children.forEachOptimized {
             updateGameObject(it, delta)
         }
     }
@@ -91,7 +92,7 @@ class GameEngineImpl(
 
     private fun drawGameObject(gameObject: GameObject, canvas: Canvas) {
         gameObject.draw(canvas)
-        gameObject.children.forEach {
+        gameObject.children.forEachOptimized {
             drawGameObject(it, canvas)
         }
     }
@@ -110,7 +111,7 @@ class GameEngineImpl(
                 && collidableGameObject.collider.collidesWith(gameObject.collider)) {
             collisions += gameObject
         }
-        gameObject.children.forEach {
+        gameObject.children.forEachOptimized {
             checkCollision(collidableGameObject, it, collisions)
         }
     }
@@ -125,7 +126,7 @@ class GameEngineImpl(
         if (gameObject is AccelerometerEventListener) {
             gameObject.onAccelerometerEvent(event)
         }
-        gameObject.children.forEach {
+        gameObject.children.forEachOptimized {
             notifyAccelerometerEvent(it, event)
         }
     }

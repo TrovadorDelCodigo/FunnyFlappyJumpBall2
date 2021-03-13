@@ -2,6 +2,7 @@ package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
 import android.graphics.Color
+import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
 /**
@@ -35,7 +36,7 @@ class Terrain: GameObject() {
     }
 
     override fun update(delta: Long) {
-        tiles.forEach {
+        tiles.forEachOptimized {
             it.moveTo(it.x, it.y + delta * scrollSpeed)
         }
 

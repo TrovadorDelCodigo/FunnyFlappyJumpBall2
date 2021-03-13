@@ -3,6 +3,7 @@ package fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects
 import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngineContext
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
+import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 
 abstract class GameObject(
     initialX: Float = 0.0f,
@@ -69,7 +70,7 @@ abstract class GameObject(
     }
 
     fun removeChildren() {
-        children.forEach {
+        children.forEachOptimized {
             it.removeChildren()
             gameEngineContext.deinitGameObject(it)
         }

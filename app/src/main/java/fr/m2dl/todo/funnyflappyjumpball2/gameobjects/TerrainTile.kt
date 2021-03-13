@@ -46,6 +46,7 @@ class TerrainTile(
     /**
      * Removes old obstacles and put new ones randomly.
      * @see Terrain To see when it is called.
+     * @TODO Create an obstacles pool ?
      */
     fun arrangeObstacles() {
         obstacleRows.removeAll { true }
@@ -81,8 +82,5 @@ class TerrainTile(
             else ->
                 Wall(columnX, rowY + rowHeight / 2f - 50f, columnWidth)
         }
-    }
-
-    private fun layoutWalls() {
     }
 }

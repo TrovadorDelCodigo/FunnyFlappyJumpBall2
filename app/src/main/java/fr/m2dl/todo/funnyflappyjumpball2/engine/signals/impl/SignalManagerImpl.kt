@@ -18,6 +18,7 @@ class SignalManagerImpl: SignalManager {
     }
 
     override fun sendSignal(signalName: String, signalData: Any) {
+        // TODO Optimize it. Don't create iterators...
         handlers[signalName]?.forEach {
             it(signalData)
         }
