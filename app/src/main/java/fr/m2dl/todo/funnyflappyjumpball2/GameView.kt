@@ -6,8 +6,8 @@ import android.graphics.Color
 import android.os.Handler
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.*
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
@@ -57,10 +57,6 @@ class GameView(
         gameEngine?.stop()
     }
 
-    fun notifyEvent(event: AccelerometerEvent) {
-        gameEngine?.notifyEvent(event)
-    }
-
     private fun populateGameWorld() {
         gameEngine?.setSceneRoot(Scene())
     }
@@ -94,5 +90,13 @@ class GameView(
 
             }, 3000)
         }, 3000)
+    }
+
+    fun notifyEvent(event: AccelerometerEvent) {
+        gameEngine?.notifyEvent(event)
+    }
+
+    fun notifyEvent(event: TouchScreenEvent) {
+        gameEngine?.notifyEvent(event)
     }
 }

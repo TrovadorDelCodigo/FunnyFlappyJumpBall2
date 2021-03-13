@@ -1,23 +1,18 @@
 package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
-import android.content.res.Resources
 import android.graphics.Canvas
-import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
-import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
-import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
-import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
-import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
-import fr.m2dl.todo.funnyflappyjumpball2.engine.events.GameInputEvent
+import android.content.res.Resources
+import fr.m2dl.todo.funnyflappyjumpball2.engine.*
+import fr.m2dl.todo.funnyflappyjumpball2.engine.events.*
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.signals.impl.SignalManagerImpl
-import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 
 class GameEngineImpl(
-        override var framesPerSecond: Int,
-        private val gameDrawingSurface: GameDrawingSurface,
-        override val resources: Resources
-): GameEngine {
+    override var framesPerSecond: Int,
+    private val gameDrawingSurface: GameDrawingSurface,
+    override val resources: Resources
+) : GameEngine {
 
     override val viewport: GameViewport
         get() = gameDrawingSurface.viewport
@@ -31,12 +26,12 @@ class GameEngineImpl(
     private var newScene = false
 
     override fun setSceneRoot(gameObject: GameObject) {
-            if (gameObjectTree != null) {
-                gameObjectTree?.removeChildren()
-                deinitGameObject(gameObjectTree!!)
-            }
-            gameObjectTree = gameObject
-            initGameObject(gameObject)
+        if (gameObjectTree != null) {
+            gameObjectTree?.removeChildren()
+            deinitGameObject(gameObjectTree!!)
+        }
+        gameObjectTree = gameObject
+        initGameObject(gameObject)
     }
 
     override fun start() {
@@ -103,12 +98,15 @@ class GameEngineImpl(
         return collisions
     }
 
-    private fun checkCollision(collidableGameObject: CollidableGameObject<*>,
-                               gameObject: GameObject,
-                               collisions: MutableList<GameObject>) {
-        if (collidableGameObject !== gameObject
-                && gameObject is CollidableGameObject<*>
-                && collidableGameObject.collider.collidesWith(gameObject.collider)) {
+    private fun checkCollision(
+        collidableGameObject: CollidableGameObject<*>,
+        gameObject: GameObject,
+        collisions: MutableList<GameObject>
+    ) {
+        if (collidableGameObject !== gameObject &&
+            gameObject is CollidableGameObject<*> &&
+            collidableGameObject.collider.collidesWith(gameObject.collider)
+        ) {
             collisions += gameObject
         }
         gameObject.children.forEachOptimized {
@@ -117,8 +115,11 @@ class GameEngineImpl(
     }
 
     override fun notifyEvent(event: GameInputEvent) {
-        if (event is AccelerometerEvent) {
-            notifyAccelerometerEvent(gameObjectTree!!, event)
+        when (event) {
+            is AccelerometerEvent ->
+                notifyAccelerometerEvent(gameObjectTree!!, event)
+            is TouchScreenEvent ->
+                notifyTouchScreenEvent(gameObjectTree!!, event)
         }
     }
 
@@ -131,4 +132,12 @@ class GameEngineImpl(
         }
     }
 
+    private fun notifyTouchScreenEvent(gameObject: GameObject, event: TouchScreenEvent) {
+        if (gameObject is TouchScreenEventListener) {
+            gameObject.onTouchScreenEvent(event)
+        }
+        gameObject.children.forEach {
+            notifyTouchScreenEvent(it, event)
+        }
+    }
 }
