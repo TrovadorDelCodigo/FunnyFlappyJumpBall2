@@ -14,7 +14,7 @@ import android.view.WindowManager
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 
-class MainActivity : Activity(), SensorEventListener {
+class GameActivity : Activity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
     private lateinit var gameView: GameView
@@ -31,8 +31,8 @@ class MainActivity : Activity(), SensorEventListener {
         window.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
 
     private fun setupSensorManagerAndSensors() {
