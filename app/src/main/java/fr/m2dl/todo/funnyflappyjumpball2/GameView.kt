@@ -92,11 +92,7 @@ class GameView(
         }, 3000)
     }
 
-    fun notifyEvent(event: AccelerometerEvent) {
-        gameEngine?.notifyEvent(event)
-    }
-
-    fun notifyEvent(event: TouchScreenEvent) {
+    fun notifyEvent(event: GameInputEvent) {
         gameEngine?.notifyEvent(event)
     }
 }

@@ -1,7 +1,6 @@
 package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.view.MotionEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
@@ -10,7 +9,6 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.collisions.impl.CircleCollider
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
-import java.util.logging.Handler
 import kotlin.math.abs
 import kotlin.math.sin
 
@@ -22,17 +20,17 @@ class Ball(
         color: Int
 ): CollidableGameObject<CircleCollider>(x, y, CircleCollider()),
         AccelerometerEventListener, TouchScreenEventListener {
-    private var LEFT_SIDE_BORDER: Float = 0F
-    private var RIGHT_SIDE_BORDER: Float = 0F
-    private val BORDER_LENGHT = radius + 20F
+    private var leftSideBorder: Float = 0F
+    private var rightSideBorder: Float = 0F
+    private val borderLength = radius + 20F
 
     private var jumping: Boolean = false
     private var paint = Paint(color)
     private var dynamicRadius = radius
 
     override fun init() {
-        LEFT_SIDE_BORDER = 0F + BORDER_LENGHT
-        RIGHT_SIDE_BORDER = viewport.width - BORDER_LENGHT
+        leftSideBorder = 0F + borderLength
+        rightSideBorder = viewport.width - borderLength
     }
 
     override fun deinit() {
@@ -80,8 +78,8 @@ class Ball(
 
     private fun calculateNewX(value: Float): Float {
         return when {
-            value <= LEFT_SIDE_BORDER -> LEFT_SIDE_BORDER
-            value >= RIGHT_SIDE_BORDER -> RIGHT_SIDE_BORDER
+            value <= leftSideBorder -> leftSideBorder
+            value >= rightSideBorder -> rightSideBorder
             else -> value
         }
     }
@@ -92,5 +90,4 @@ class Ball(
             MotionEvent.ACTION_UP -> jumping = false
         }
     }
-
 }

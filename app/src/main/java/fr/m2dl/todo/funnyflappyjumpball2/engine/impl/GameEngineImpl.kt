@@ -136,7 +136,7 @@ class GameEngineImpl(
         if (gameObject is TouchScreenEventListener) {
             gameObject.onTouchScreenEvent(event)
         }
-        gameObject.children.forEach {
+        gameObject.children.forEachOptimized {
             notifyTouchScreenEvent(it, event)
         }
     }
