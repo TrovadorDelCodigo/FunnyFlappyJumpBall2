@@ -6,7 +6,7 @@ import android.graphics.Paint
 import fr.m2dl.todo.funnyflappyjumpball2.engine.collisions.impl.RectCollider
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 
-private const val WALL_HEIGHT = 75f
+public const val WALL_HEIGHT = 75f
 
 private const val WALL_SIDE_OFFSET = 10f
 
