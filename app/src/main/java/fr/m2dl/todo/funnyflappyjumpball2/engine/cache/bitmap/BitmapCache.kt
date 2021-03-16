@@ -30,4 +30,20 @@ object BitmapCache {
             entry
         }
     }
+
+    fun getCachedBitmap(scaledWidth: Int, scaledHeight: Int, resources: Resources, resId: Int, hasAlpha: Boolean): Bitmap {
+        val key = BitmapCacheKey(scaledWidth, resources, resId)
+        val entry = cache[key]
+
+        return if (entry == null) {
+            val nonScaledBitmap = BitmapFactory.decodeResource(resources, resId)
+            nonScaledBitmap.setHasAlpha(hasAlpha)
+            val scaledBitmap = Bitmap.createScaledBitmap(nonScaledBitmap, scaledWidth, scaledHeight, true)
+
+            cache[key] = scaledBitmap
+            scaledBitmap
+        } else {
+            entry
+        }
+    }
 }

@@ -39,8 +39,8 @@ class TerrainTile(y: Float): GameObject(0.0f, y) {
         rowHeight = height / TILE_ROW_COUNT
         columnWidth = width / TILE_COLUMN_COUNT
 
-        backgroundBitmap = BitmapCache.getCachedBitmap(viewport.width.toInt(),resources,
-                R.drawable.background01, false)
+        backgroundBitmap = BitmapCache.getCachedBitmap(viewport.width.toInt(), viewport.height.toInt(),
+                resources, R.drawable.background01, false)
     }
 
     override fun deinit() {
