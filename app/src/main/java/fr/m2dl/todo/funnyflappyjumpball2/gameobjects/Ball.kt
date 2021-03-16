@@ -17,6 +17,8 @@ import kotlin.math.sin
 
 private const val JUMP_DURATION_MILIS =  250L
 
+const val BALL_RADIUS = 50f
+
 class Ball(
         x: Float,
         y: Float,

@@ -22,7 +22,8 @@ class Hole(
         get() = globalY + height / 2f - holeBitmap.height / 2f
 
     override fun init() {
-        holeBitmap = BitmapCache.getCachedBitmap(width.toInt(), resources, R.drawable.hole01)
+        holeBitmap = BitmapCache.getCachedBitmap(width.toInt(), resources,
+                R.drawable.hole01, true)
         paint = Paint()
     }
 

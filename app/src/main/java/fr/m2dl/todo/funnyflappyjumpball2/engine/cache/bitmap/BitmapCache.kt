@@ -13,15 +13,16 @@ object BitmapCache {
 
     private val cache = mutableMapOf<BitmapCacheKey, Bitmap>()
 
-    fun getCachedBitmap(scaledWidth: Int, resources: Resources, resId: Int): Bitmap {
+    fun getCachedBitmap(scaledWidth: Int, resources: Resources, resId: Int, hasAlpha: Boolean): Bitmap {
         val key = BitmapCacheKey(scaledWidth, resources, resId)
         val entry = cache[key]
 
         return if (entry == null) {
             val nonScaledBitmap = BitmapFactory.decodeResource(resources, resId)
+            nonScaledBitmap.setHasAlpha(hasAlpha)
             val ratio = scaledWidth / nonScaledBitmap.width.toFloat()
             val scaledHeight = (ratio * nonScaledBitmap.height).toInt()
-            val scaledBitmap = Bitmap.createScaledBitmap(nonScaledBitmap, scaledWidth, scaledHeight, false)
+            val scaledBitmap = Bitmap.createScaledBitmap(nonScaledBitmap, scaledWidth, scaledHeight, true)
 
             cache[key] = scaledBitmap
             scaledBitmap
