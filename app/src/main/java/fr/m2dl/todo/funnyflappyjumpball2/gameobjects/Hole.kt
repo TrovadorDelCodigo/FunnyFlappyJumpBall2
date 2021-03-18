@@ -16,8 +16,11 @@ class Hole(
     private lateinit var holeBitmap: Bitmap
     private lateinit var paint: Paint
 
-    private val holeBitmapY
+    val holeBitmapY
         get() = globalY + height / 2f - holeBitmap.height / 2f
+
+    val holeBitmapHeight
+        get() = holeBitmap.height.toFloat()
 
     override fun init() {
         holeBitmap = BitmapCache.getCachedBitmap(width.toInt(), resources,
@@ -29,10 +32,9 @@ class Hole(
     }
 
     override fun update(delta: Long) {
-        val holeBitmapHeight = holeBitmap.height.toFloat()
         collider.let {
             it.globalX = globalX
-            it.globalY = holeBitmapY - holeBitmapHeight / 4f
+            it.globalY = holeBitmapY + holeBitmapHeight / 4f
             it.width = width
             it.height = holeBitmapHeight / 2f
         }

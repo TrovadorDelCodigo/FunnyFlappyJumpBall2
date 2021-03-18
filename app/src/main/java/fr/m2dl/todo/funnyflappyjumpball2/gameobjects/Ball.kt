@@ -36,6 +36,7 @@ class Ball(
     private var dynamicRadius = radius
     private var jumping: Boolean = false
     private var isInGloryHole = false
+    private var isInTheCenterOfGloryHole = false
     private lateinit var collisions: List<GameObject>
     private var totalTime = 0F
     private var paint = Paint().also { it.color = color }
@@ -86,13 +87,17 @@ class Ball(
         val gloryHoleCollisions = collisions.filterIsInstance<Hole>()
         if (!jumping && gloryHoleCollisions.isNotEmpty() && !isInGloryHole) {
             isInGloryHole = true
-            signalManager.sendSignal("lost-in-a-glory-hole-signal", true)
             handler.postDelayed({
                 val score = retrieveScore()
                 signalManager.sendSignal("game-over", score)
             }, 1000)
         }
         if (isInGloryHole) {
+            val hole = gloryHoleCollisions[0]
+            if (!isInTheCenterOfGloryHole && globalY < hole.holeBitmapY + hole.holeBitmapHeight - radius / 2f - 10f) {
+                isInTheCenterOfGloryHole = true
+                signalManager.sendSignal("lost-in-a-glory-hole-signal", true)
+            }
             tt += delta * RESIZE_SPEED
             dynamicRadius = radius - exp(tt)
         }
