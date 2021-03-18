@@ -66,10 +66,10 @@ class GameView(
         gameEngine?.start()
 
         // TODO remove after testing
-        val handler = Handler()
-        handler.postDelayed({
-            gameEngine!!.signalManager.sendSignal("game-over", 1337)
-        }, 10000)
+        // val handler = Handler()
+        // handler.postDelayed({
+        //     gameEngine!!.signalManager.sendSignal("game-over", 1337)
+        // }, 10000)
     }
 
     private fun stopGame() {
