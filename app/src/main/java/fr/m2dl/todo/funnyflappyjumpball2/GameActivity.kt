@@ -67,6 +67,9 @@ class GameActivity : Activity(), SensorEventListener {
         }
         mediaPlayers.forEachIndexed { i, mediaPlayer ->
             mediaPlayer.setNextMediaPlayer(mediaPlayers[(i + 1) % musicIds.size])
+            mediaPlayer.setOnCompletionListener {
+                it.seekTo(0)
+            }
         }
         startMusicHandler.postDelayed({ mediaPlayers[0].start() }, 1000)
     }

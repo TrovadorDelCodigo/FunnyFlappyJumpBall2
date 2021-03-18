@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "18478731292",
+    "project_id": "funny-flappy-jump-ball-2",
+    "storage_bucket": "funny-flappy-jump-ball-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18478731292:android:7e2ff9b7c6073085804fd9",
+        "android_client_info": {
+          "package_name": "fr.m2dl.todo.funnyflappyjumpball2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18478731292-tai2fuk31chc36k19idudd9d38cjk7ot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4qxsSHGDLdy6hEF-M0OiohP4vMARdLwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18478731292-tai2fuk31chc36k19idudd9d38cjk7ot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
