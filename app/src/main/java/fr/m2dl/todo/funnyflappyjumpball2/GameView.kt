@@ -1,6 +1,7 @@
 package fr.m2dl.todo.funnyflappyjumpball2
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Handler
@@ -16,12 +17,23 @@ import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.FPSCounter
 import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.Scene
 import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.SimpleRect
 
+const val GAME_OVER_SIGNAL = "game-over"
+
 class GameView(
     private val activity: Activity
 ) : SurfaceView(activity), SurfaceHolder.Callback {
 
     private val defaultFps = 60
     private var gameEngine: GameEngine? = null
+
+    private val gameOverSignalHandler: (Any) -> Unit = { score ->
+        if (score is Int) {
+            val intent = Intent(activity, GameOverActivity::class.java)
+            intent.putExtra("score", score)
+            activity.startActivity(intent)
+            activity.finish()
+        }
+    }
 
     init {
         holder.addCallback(this)
@@ -49,8 +61,15 @@ class GameView(
 
     private fun startGame() {
         gameEngine = GameEngineImpl(defaultFps, GameDrawingSurfaceImpl(this), activity.resources)
+        gameEngine!!.signalManager.subscribe("game-over", gameOverSignalHandler)
         populateGameWorld()
         gameEngine?.start()
+
+        // TODO remove after testing
+        val handler = Handler()
+        handler.postDelayed({
+            gameEngine!!.signalManager.sendSignal("game-over", 1337)
+        }, 10000)
     }
 
     private fun stopGame() {
