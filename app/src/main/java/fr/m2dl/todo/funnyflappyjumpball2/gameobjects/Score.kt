@@ -17,7 +17,7 @@ const val SCORE_ADD_POINTS_SIGNAL = "score-add-points"
 
 class Score: GameObject() {
 
-    private var score = 0
+    var score = 0
     private var scoreText = SCORE_TEXT_FORMAT.format(score)
 
     private val backgroundPaint = Paint()

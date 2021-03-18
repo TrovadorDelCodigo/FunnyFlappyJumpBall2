@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngineContext
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameViewport
 import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
+import fr.m2dl.todo.funnyflappyjumpball2.score.Score
 
 abstract class GameObject(
     initialX: Float = 0.0f,

@@ -88,7 +88,8 @@ class Ball(
             isInGloryHole = true
             signalManager.sendSignal("lost-in-a-glory-hole-signal", true)
             handler.postDelayed({
-                signalManager.sendSignal("game-over", 1337)
+                val score = retrieveScore()
+                signalManager.sendSignal("game-over", score)
             }, 1000)
         }
         if (isInGloryHole) {
@@ -115,9 +116,15 @@ class Ball(
        if (isOutOfScreen() && !outOfScreen) {
            outOfScreen = true
            handler.postDelayed({
-               signalManager.sendSignal("game-over", 1337)
+               val score = retrieveScore()
+               signalManager.sendSignal("game-over", score)
            }, 1000)
        }
+    }
+
+    private fun retrieveScore(): Int {
+        val score = parent!!.children!!.first { it is Score } as Score
+        return score.score
     }
 
     private fun isOutOfScreen(): Boolean = y + radius > viewport.height
