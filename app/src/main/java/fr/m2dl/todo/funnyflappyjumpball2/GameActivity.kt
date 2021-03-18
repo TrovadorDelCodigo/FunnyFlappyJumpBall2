@@ -61,6 +61,8 @@ class GameActivity : Activity(), SensorEventListener {
                 R.raw.hold_on_a_minute,
         ).shuffled().toTypedArray()
 
+        val mainTheme = MediaPlayer.create(this, R.raw.nice_recorder)
+        mediaPlayers += mainTheme
         musicIds.forEach {
             val mediaPlayer = MediaPlayer.create(this, it)
             mediaPlayers += mediaPlayer
