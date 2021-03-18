@@ -14,8 +14,7 @@ class Scene : GameObject() {
         addChild(Score())
         addChild(Ball(viewport.width / 2f, viewport.height / 2f, BALL_RADIUS, 10, Color.MAGENTA))
 
-        // TODO remove these tests
-        addChild((FPSCounter()))
+        // addChild((FPSCounter()))
     }
 
     override fun deinit() {
