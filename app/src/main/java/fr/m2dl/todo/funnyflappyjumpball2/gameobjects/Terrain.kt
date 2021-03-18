@@ -2,8 +2,11 @@ package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Looper
 import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
+import android.os.Handler
+import kotlin.system.exitProcess
 
 /**
  * Represents the scrolling terrain of the game.
@@ -16,6 +19,10 @@ class Terrain: GameObject() {
     private val scrollSpeed = 0.30f
 
     private lateinit var tiles: Array<TerrainTile>
+
+    private val stopTerrainHandler: (Any) -> Unit = {
+        // TODO : stop tiles
+    }
 
     override fun init() {
         tiles = arrayOf<TerrainTile>(
@@ -30,6 +37,8 @@ class Terrain: GameObject() {
         // without dying... Obstacles will be put on the
         // third tile on the next tile rotation
         tiles[0].arrangeObstacles()
+
+        signalManager.subscribe("lostInAGloryHoleSignal", stopTerrainHandler)
     }
 
     override fun deinit() {
