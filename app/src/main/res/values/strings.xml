@@ -4,7 +4,7 @@
     <string name="game_over">Game Over!</string>
     <string name="score">Score: </string>
     <string name="register_score">Register score?</string>
-    <string name="player_name">Player name</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
+    <string name="register_score_button_text">Register Score</string>
 </resources>

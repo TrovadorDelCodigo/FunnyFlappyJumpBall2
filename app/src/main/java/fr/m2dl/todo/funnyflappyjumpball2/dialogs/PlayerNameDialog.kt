@@ -3,23 +3,33 @@ package fr.m2dl.todo.funnyflappyjumpball2.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import fr.m2dl.todo.funnyflappyjumpball2.R
 
 class PlayerNameDialog: DialogFragment() {
 
+    var onPlayerNameEntered: ((String) -> Unit)? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity!!.let {
-            val inflater = requireActivity().layoutInflater
-
             AlertDialog.Builder(it).run {
-                setView(inflater.inflate(R.layout.player_name_dialog_fragment, null))
+                val playerNameEditText = EditText(context)
+                setTitle("Enter player name")
+                setView(playerNameEditText)
+
                 setPositiveButton(R.string.ok) { dialog, id ->
-                    dialog.cancel()
+                    val playerName = playerNameEditText.text.toString()
+                    if (playerName.isNotBlank()) {
+                        onPlayerNameEntered?.let { it(playerName) }
+                        dialog.dismiss()
+                    }
                 }
+
                 setNegativeButton(R.string.cancel) { dialog, id ->
                     dialog.cancel()
                 }
+
                 create()
             }
         }
