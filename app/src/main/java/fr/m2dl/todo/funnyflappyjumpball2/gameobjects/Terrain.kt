@@ -1,12 +1,8 @@
 package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
-import android.graphics.Color
-import android.os.Looper
 import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
-import android.os.Handler
-import kotlin.system.exitProcess
 
 /**
  * Represents the scrolling terrain of the game.
@@ -26,9 +22,9 @@ class Terrain: GameObject() {
 
     override fun init() {
         tiles = arrayOf<TerrainTile>(
-            TerrainTile(-viewport.height, Color.RED),
-            TerrainTile(0.0f, Color.GREEN),
-            TerrainTile(viewport.height, Color.BLUE)
+            TerrainTile(-viewport.height),
+            TerrainTile(0.0f),
+            TerrainTile(viewport.height)
         )
         tiles.forEach(this::addChild)
 

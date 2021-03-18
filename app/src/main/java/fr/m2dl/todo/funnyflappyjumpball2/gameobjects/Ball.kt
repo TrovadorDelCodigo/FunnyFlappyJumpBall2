@@ -19,6 +19,8 @@ import kotlin.math.sin
 private const val ROLL_THRESHOLD = 0.5F
 private const val RESIZE_SPEED = 0.003F
 
+const val BALL_RADIUS = 50f
+
 class Ball(
         x: Float,
         y: Float,

@@ -11,11 +11,11 @@ class Scene : GameObject() {
 
     override fun init() {
         addChild(Terrain())
-        addChild(Ball(viewport.width / 2f, viewport.height / 2f, 50F, 10, Color.MAGENTA))
+        addChild(Score())
+        addChild(Ball(viewport.width / 2f, viewport.height / 2f, BALL_RADIUS, 10, Color.MAGENTA))
 
         // TODO remove these tests
         addChild((FPSCounter()))
-        addChild(CollisionWarning())
     }
 
     override fun deinit() {

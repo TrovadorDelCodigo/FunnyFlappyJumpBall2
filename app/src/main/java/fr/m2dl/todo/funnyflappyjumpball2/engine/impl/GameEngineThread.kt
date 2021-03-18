@@ -2,6 +2,7 @@ package fr.m2dl.todo.funnyflappyjumpball2.engine.impl
 
 import android.graphics.Canvas
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameDrawingSurface
+import kotlin.math.max
 import kotlin.system.measureTimeMillis
 
 class GameEngineThread(
@@ -34,7 +35,7 @@ class GameEngineThread(
                 if (canvas != null) {
                     try {
                         gameDrawingSurface.unlockCanvas(canvas)
-                        sleep(targetTimeMillis - frameTimeMillis)
+                        sleep(max(targetTimeMillis - frameTimeMillis, 1L))
                     } catch (exp: Exception) {
                         exp.printStackTrace()
                     }
