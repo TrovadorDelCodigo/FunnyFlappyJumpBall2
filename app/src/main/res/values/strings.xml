@@ -9,15 +9,11 @@
     <string name="register_score_button_text">Register Score</string>
     <string name="story">
         When nuclear bombs dropped, the world froze. Life is now dead so humans cannot maintain roads
-        anymore. Holes are now forming and walls were projected by nuclear blasts.
-        <br/>
-        <br/>
+        anymore. Holes are now forming and walls were projected by nuclear blasts.\n\n
 
-        You are The Ball.
+        You are The Ball.\n
         The only thing still moving as you never stopped rolling since that day. You are in a
-        forever motion chasing a future that wont be anymore.
-        <br/>
-        <br/>
+        forever motion chasing a future that wont be anymore.\n\n
 
         Will you roll for another day?
     </string>
