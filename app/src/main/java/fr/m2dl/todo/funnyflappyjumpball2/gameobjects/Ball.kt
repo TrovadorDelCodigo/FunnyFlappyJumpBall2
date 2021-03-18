@@ -2,6 +2,8 @@ package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.AccelerometerEventListener
 import fr.m2dl.todo.funnyflappyjumpball2.engine.TouchScreenEventListener
@@ -10,10 +12,8 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.events.AccelerometerEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.TouchScreenEvent
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
-import fr.m2dl.todo.funnyflappyjumpball2.engine.signals.SignalManager
 import kotlin.math.abs
 import kotlin.math.exp
-import kotlin.math.ln
 import kotlin.math.sin
 
 private const val ROLL_THRESHOLD = 0.5F
@@ -29,8 +29,6 @@ class Ball(
         color: Int
 ): CollidableGameObject<CircleCollider>(x, y, CircleCollider()),
         AccelerometerEventListener, TouchScreenEventListener {
-    // TODO : A mettre dans le terrain ??
-    // TODO : Si pas de flemme, faire un automate de l'état de la balle
     private var leftSideBorder: Float = 0F
     private var rightSideBorder: Float = 0F
     private val borderLength = radius + 20F
@@ -40,7 +38,11 @@ class Ball(
     private var isInGloryHole = false
     private lateinit var collisions: List<GameObject>
     private var totalTime = 0F
+    private var paint = Paint().also { it.color = color }
 
+    private var outOfScreen: Boolean = false
+
+    private var handler = Handler(Looper.getMainLooper())
     override fun init() {
         leftSideBorder = borderLength
         rightSideBorder = viewport.width - borderLength
@@ -50,7 +52,6 @@ class Ball(
         //TODO("Not yet implemented")
     }
 
-    private var paint = Paint(color)
     override fun draw(canvas: Canvas) {
         canvas.drawCircle(x, y, dynamicRadius, paint)
     }
@@ -61,6 +62,7 @@ class Ball(
         blockIfObstacle()
         fallOutIfHole(delta)
         jumpWhenTouchScreen(delta)
+        outOfScreen()
     }
 
     private fun updateCollider() {
@@ -82,9 +84,12 @@ class Ball(
     private var tt = 1F
     private fun fallOutIfHole(delta: Long) {
         val gloryHoleCollisions = collisions.filterIsInstance<Hole>()
-        if (!jumping && gloryHoleCollisions.isNotEmpty()) {
+        if (!jumping && gloryHoleCollisions.isNotEmpty() && !isInGloryHole) {
             isInGloryHole = true
-            signalManager.sendSignal("lostInAGloryHoleSignal", true)
+            signalManager.sendSignal("lost-in-a-glory-hole-signal", true)
+            handler.postDelayed({
+                signalManager.sendSignal("game-over", 1337)
+            }, 1000)
         }
         if (isInGloryHole) {
             tt += delta * RESIZE_SPEED
@@ -93,7 +98,7 @@ class Ball(
     }
 
     private fun jumpWhenTouchScreen(delta: Long) {
-        if (jumping) {
+        if (!isInGloryHole && jumping) {
             dynamicRadius = abs(radius + radius * sin(totalTime))
             totalTime += delta * RESIZE_SPEED
             if (isInGround()) {
@@ -106,10 +111,23 @@ class Ball(
         return sin(totalTime) <= 0F
     }
 
+    private fun outOfScreen() {
+       if (isOutOfScreen() && !outOfScreen) {
+           outOfScreen = true
+           handler.postDelayed({
+               signalManager.sendSignal("game-over", 1337)
+           }, 1000)
+       }
+    }
+
+    private fun isOutOfScreen(): Boolean = y + radius > viewport.height
+
     override fun onAccelerometerEvent(event: AccelerometerEvent) {
         var motion = parse(event.x)
         var newX = calculateVerticalPosition(x + motion)
-        moveTo(newX, y)
+        if (!isInGloryHole) {
+            moveTo(newX, y)
+        }
     }
 
     private fun parse(verticalMotion: Float): Float {
@@ -128,7 +146,7 @@ class Ball(
     }
 
     override fun onTouchScreenEvent(event: TouchScreenEvent) {
-        if (event.action == MotionEvent.ACTION_DOWN) {
+        if (event.action == MotionEvent.ACTION_DOWN && !jumping) {
             jumping = true
             totalTime = 0F
         }

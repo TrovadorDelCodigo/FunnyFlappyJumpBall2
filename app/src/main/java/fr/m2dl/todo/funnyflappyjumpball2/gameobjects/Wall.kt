@@ -7,8 +7,8 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.collisions.impl.RectCollider
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 
 public const val WALL_HEIGHT = 75f
-
 private const val WALL_SIDE_OFFSET = 10f
+private const val WALL_COLLISION_MARGIN = 10f
 
 class Wall(
         initialX: Float,
@@ -30,7 +30,7 @@ class Wall(
         collider.let {
             it.globalX = globalX
             it.globalY = globalY
-            it.width = width
+            it.width = width - WALL_COLLISION_MARGIN
             it.height = WALL_HEIGHT
         }
     }

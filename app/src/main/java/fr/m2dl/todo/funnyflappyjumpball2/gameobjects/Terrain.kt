@@ -1,6 +1,8 @@
 package fr.m2dl.todo.funnyflappyjumpball2.gameobjects
 
 import android.graphics.Canvas
+import android.os.Handler
+import android.os.Looper
 import fr.m2dl.todo.funnyflappyjumpball2.engine.forEachOptimized
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 
@@ -12,12 +14,13 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
  * infinite scrolling terrain.
  */
 class Terrain: GameObject() {
+    private var isFallingInAGloryHole: Boolean = false
     private val scrollSpeed = 0.30f
 
     private lateinit var tiles: Array<TerrainTile>
 
     private val stopTerrainHandler: (Any) -> Unit = {
-        // TODO : stop tiles
+        isFallingInAGloryHole = true
     }
 
     override fun init() {
@@ -34,18 +37,20 @@ class Terrain: GameObject() {
         // third tile on the next tile rotation
         tiles[0].arrangeObstacles()
 
-        signalManager.subscribe("lostInAGloryHoleSignal", stopTerrainHandler)
+        signalManager.subscribe("lost-in-a-glory-hole-signal", stopTerrainHandler)
     }
 
     override fun deinit() {
     }
 
     override fun update(delta: Long) {
-        tiles.forEachOptimized {
-            it.moveTo(it.x, it.y + delta * scrollSpeed)
-        }
+        if (!isFallingInAGloryHole) {
+            tiles.forEachOptimized {
+                it.moveTo(it.x, it.y + delta * scrollSpeed)
+            }
 
-        rotateTilesIfLastOneIsOutOfViewport()
+            rotateTilesIfLastOneIsOutOfViewport()
+        }
     }
 
     private fun rotateTilesIfLastOneIsOutOfViewport() {

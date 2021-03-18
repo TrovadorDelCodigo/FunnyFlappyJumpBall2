@@ -2,22 +2,13 @@ package fr.m2dl.todo.funnyflappyjumpball2
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.os.Handler
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import fr.m2dl.todo.funnyflappyjumpball2.engine.GameEngine
 import fr.m2dl.todo.funnyflappyjumpball2.engine.events.*
-import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.GameObject
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameDrawingSurfaceImpl
 import fr.m2dl.todo.funnyflappyjumpball2.engine.impl.GameEngineImpl
-import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.CoolCircle
-import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.FPSCounter
 import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.Scene
-import fr.m2dl.todo.funnyflappyjumpball2.gameobjects.SimpleRect
-
-const val GAME_OVER_SIGNAL = "game-over"
 
 class GameView(
     private val activity: Activity
@@ -64,12 +55,6 @@ class GameView(
         gameEngine!!.signalManager.subscribe("game-over", gameOverSignalHandler)
         populateGameWorld()
         gameEngine?.start()
-
-        // TODO remove after testing
-        val handler = Handler()
-        handler.postDelayed({
-            gameEngine!!.signalManager.sendSignal("game-over", 1337)
-        }, 10000)
     }
 
     private fun stopGame() {
@@ -78,37 +63,6 @@ class GameView(
 
     private fun populateGameWorld() {
         gameEngine?.setSceneRoot(Scene())
-    }
-
-    private fun populateGameWorldTestChangeScene() {
-        gameEngine?.setSceneRoot(Scene())
-
-        // test
-        val handler = Handler()
-        handler.postDelayed({
-            gameEngine?.setSceneRoot(object : GameObject() {
-                override fun init() {
-                    addChild(SimpleRect(0f, 0f, width.toFloat(), height.toFloat(), Color.BLACK))
-                    addChild(CoolCircle(width / 2f, height / 2f, 100f, Color.YELLOW))
-                    addChild(FPSCounter())
-                }
-
-                override fun deinit() {
-                }
-
-                override fun update(delta: Long) {
-                }
-
-                override fun draw(canvas: Canvas) {
-                }
-
-            })
-
-            handler.postDelayed({
-                gameEngine?.setSceneRoot(Scene())
-
-            }, 3000)
-        }, 3000)
     }
 
     fun notifyEvent(event: GameInputEvent) {

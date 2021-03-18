@@ -6,8 +6,6 @@ import fr.m2dl.todo.funnyflappyjumpball2.engine.cache.bitmap.BitmapCache
 import fr.m2dl.todo.funnyflappyjumpball2.engine.collisions.impl.RectCollider
 import fr.m2dl.todo.funnyflappyjumpball2.engine.gameobjects.CollidableGameObject
 
-private const val HOLE_RADIUS = 50f
-
 class Hole(
         initialX: Float,
         initialY: Float,
@@ -31,11 +29,12 @@ class Hole(
     }
 
     override fun update(delta: Long) {
+        val holeBitmapHeight = holeBitmap.height.toFloat()
         collider.let {
             it.globalX = globalX
-            it.globalY = holeBitmapY
+            it.globalY = holeBitmapY - holeBitmapHeight / 4f
             it.width = width
-            it.height = holeBitmap.height.toFloat()
+            it.height = holeBitmapHeight / 2f
         }
     }
 
